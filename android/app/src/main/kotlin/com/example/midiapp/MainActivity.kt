@@ -1,4 +1,4 @@
-package com.example.midiapp
+package com.midiapp.midiapp
 
 import io.flutter.embedding.android.FlutterActivity
 
