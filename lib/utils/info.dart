@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 
 import 'dart:async';
@@ -6,7 +8,9 @@ import 'dart:convert';
 /* GLOBAIS */
 var token;
 var email;
-String mainUrl = "https://SERVER/mobile";
+var userId;
+List paths = new List();
+String mainUrl = "http://192.168.0.193";
 
 Map<String, String> headers = {
   "Content-Type": "application/x-www-form-urlencoded"
@@ -46,5 +50,23 @@ class Session {
       headers['cookie'] =
           (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
+  }
+
+  Future<String> sendRecord(String url, String filename, dynamic data) async {
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    request.fields['idUser'] = data["idUser"].toString();
+    request.fields['token'] = data["token"].toString();
+
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'record',
+        filename
+      )
+    );
+
+    var response = await request.send();
+
+    return response.reasonPhrase;
   }
 }

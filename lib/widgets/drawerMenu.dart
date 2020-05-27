@@ -14,11 +14,15 @@ class _MyDrawerState extends State<MyDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    var userName = email.split("@");
+    userName = userName[0];
+    userName = userName[0].toUpperCase() + userName.substring(1);
+
     return new Drawer(
       child: new ListView(
         children: <Widget>[
           new UserAccountsDrawerHeader(
-            // accountName: Text('Farmácia', style: TextStyle(color: Color(0xFF3d3d3d))),
+            accountName: Text(userName, style: TextStyle(color: Color(0xFF3d3d3d))),
             accountEmail: Text(email, style: TextStyle(color: Color(0xFF3d3d3d))),
             currentAccountPicture: new Container(
               child: Image(image: AssetImage('assets/midi.png')),

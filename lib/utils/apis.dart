@@ -2,20 +2,9 @@ import 'dart:async';
 
 import 'package:midiapp/utils/info.dart';
 
-Future<List> getUserIdeas() async {
+Future sendRecord(path) async {
   
-  var response = await Session().post(mainUrl + "/selectUserIdeas", {"idUser": "", "token": token}); 
+  var response = await Session().sendRecord(mainUrl + "/sendRecord", path, {"idUser": userId, "token": token}); 
 
   print(response);
-  if(response["status"] == "success"){
-    return response["data"];
-  }
-  else if(response["status"] == "none"){
-    print(response["msg"]);
-    return [];
-  }
-  else{
-    print(response["msg"]);
-    return [];
-  }
 }
