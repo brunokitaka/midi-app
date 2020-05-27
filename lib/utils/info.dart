@@ -16,6 +16,8 @@ Map<String, String> headers = {
   "Content-Type": "application/x-www-form-urlencoded"
 };
 
+Map<String, String> multiPartHeaders = {};
+
 class Session {
 
   Future<Map> get(String url) async {
@@ -47,16 +49,23 @@ class Session {
     String rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
-      headers['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
+      headers['cookie'] = (index == -1) ? rawCookie : rawCookie.substring(0, index);
+    }
+  }
+
+  void updateMultiCookie(http.StreamedResponse response) {
+    String rawCookie = response.headers['set-cookie'];
+    if (rawCookie != null) {
+      int index = rawCookie.indexOf(';');
+      multiPartHeaders['cookie'] = (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
   }
 
   Future<String> sendRecord(String url, String filename, dynamic data) async {
+    
     var request = http.MultipartRequest('POST', Uri.parse(url));
 
-    request.fields['idUser'] = data["idUser"].toString();
-    request.fields['token'] = data["token"].toString();
+    request.headers.addAll(multiPartHeaders);
 
     request.files.add(
       await http.MultipartFile.fromPath(
@@ -67,6 +76,11 @@ class Session {
 
     var response = await request.send();
 
-    return response.reasonPhrase;
+    if (response.statusCode == 200) {
+      updateMultiCookie(response);
+      return response.reasonPhrase;
+    } else {
+      return "Ocorreu um erro, tente novamente mais tarde.";
+    }
   }
 }
