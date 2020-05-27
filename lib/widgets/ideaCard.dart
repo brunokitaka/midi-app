@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:midiapp/pages/home.dart';
+
+import 'package:midiapp/utils/apis.dart';
+import 'package:midiapp/utils/storage.dart';
 
 class IdeaCard extends StatefulWidget {
   final Map idea;
@@ -46,15 +52,112 @@ class _IdeaCardState extends State<IdeaCard> {
                   ],
                 )
             ),
-            title: Text("${idea["ideaName"]}",
+            title: Text("${idea["name"]}",
                 style: new TextStyle(
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0
                 )
             ),
+            trailing: ButtonTheme(
+              minWidth: 10.0,
+              child: FlatButton(
+                child: Icon(
+                  FontAwesome.trash,
+                  color: Colors.red,
+                ),
+                onPressed: () => eraseIdeaDialog(context),
+              ),
+            ),
         ),
       ),
     ));
+  }
+
+  // eraseIdea(){
+
+  // }
+
+  void eraseIdeaDialog(context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Erase idea?"),
+          content: new Text("Recording and suggestions will be erased from your account!"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text(
+                "Cancel",
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new RaisedButton(
+              child: new Text(
+                "Ok",
+                style: TextStyle(color: Colors.white),
+              ),
+              color: Colors.red,
+              onPressed: () => eraseIdea(context),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  eraseIdea(context) async {
+    DbConnection database = new DbConnection();
+
+    print("ID = " + idea["idIdea"].toString());
+    bool response = await requestEraseIdea(idea["idIdea"]);
+
+    if(!response){
+      Navigator.of(context).pop();
+      errorMessage(context);
+    }
+    else{
+      final file = File(idea["path"]);
+      file.deleteSync();
+    
+      await database.deleteUserIdea(idea["idIdea"]);
+      await database.deleteIdea(idea["idIdea"]);
+
+      Navigator.of(context).pushAndRemoveUntil(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new HomePage()),
+        (Route route) => route == null);
+    }    
+  }
+
+  errorMessage(context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(
+            "Unespected error, try again later!"
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) => new HomePage()),
+                  (Route route) => route == null);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

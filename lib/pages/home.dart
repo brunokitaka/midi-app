@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage> {
     for(var i = 0; i < ideas.length; i++){
       List<Map> response = await database.selectIdeasPaths(ideas[i]["idIdea"]);
       Map item = {
+        "idIdea": response[0]["idIdea"].toString(),
         "path": response[0]["path"].toString(),
         "name": response[0]["name"].toString()
       };
@@ -79,28 +80,7 @@ class _HomePageState extends State<HomePage> {
           // padding: const EdgeInsets.all(15.0),
           itemCount: paths.length,
           itemBuilder: (BuildContext context, int index) {
-            return InkWell(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.black12
-                    )
-                  )
-                ),
-                padding: new EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 30.0),
-                child: Column(
-                  children: [
-                    Text(paths[index]["name"], style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 7.0),
-                    Text("Path: " + paths[index]["path"], style: TextStyle(fontSize: 10.0))
-                  ]
-                )
-              ),
-              onTap: () {
-
-              }
-            );
+            return IdeaCard(paths[index]);
           }
         ),
         onRefresh: refreshIdeas

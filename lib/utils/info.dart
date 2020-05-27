@@ -50,6 +50,7 @@ class Session {
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
       headers['cookie'] = (index == -1) ? rawCookie : rawCookie.substring(0, index);
+      multiPartHeaders['cookie'] = (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
   }
 
@@ -57,15 +58,19 @@ class Session {
     String rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
+      headers['cookie'] = (index == -1) ? rawCookie : rawCookie.substring(0, index);
       multiPartHeaders['cookie'] = (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
   }
 
   Future<String> sendRecord(String url, String filename, dynamic data) async {
+    print("SENDING TO SERVER");
     
     var request = http.MultipartRequest('POST', Uri.parse(url));
 
     request.headers.addAll(multiPartHeaders);
+
+    request.fields.addAll(data);
 
     request.files.add(
       await http.MultipartFile.fromPath(
@@ -78,8 +83,10 @@ class Session {
 
     if (response.statusCode == 200) {
       updateMultiCookie(response);
+      print(response.reasonPhrase);
       return response.reasonPhrase;
     } else {
+      print(response.reasonPhrase);
       return "Ocorreu um erro, tente novamente mais tarde.";
     }
   }

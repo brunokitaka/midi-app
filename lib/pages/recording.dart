@@ -153,6 +153,7 @@ class _RecordingPageState extends State<RecordingPage> {
   bool _isRecording = false;
   Random random = new Random();
   TextEditingController _controller = new TextEditingController();
+  var id;
 
   @override
   void initState(){
@@ -255,7 +256,7 @@ class _RecordingPageState extends State<RecordingPage> {
     // _controller.text = recording.path;
     _controller.text = "";
     
-    sendRecord(recording.path);
+    sendRecord(recording.path, id);
   }
 
   _insertNewRecording(path, name) async {
@@ -265,6 +266,7 @@ class _RecordingPageState extends State<RecordingPage> {
 
     await database.insertUserIdea({"idIdea":idIdea,"userId":userId});
 
+    id = idIdea;
     //TO DO: SEND AUDIO FILE TO BACKEND
   }
 }

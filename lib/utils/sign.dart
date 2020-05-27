@@ -49,6 +49,7 @@ Future signIn(context, email, password, registrationToken) async {
       for(var i = 0; i < ideas.length; i++){
         List<Map> response = await database.selectIdeasPaths(ideas[i]["idIdea"]);
         Map item = {
+          "idIdea": response[0]["idIdea"].toString(),
           "path": response[0]["path"].toString(),
           "name": response[0]["name"].toString()
         };

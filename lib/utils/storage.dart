@@ -89,6 +89,16 @@ class DbConnection {
     return insertID;
   }
 
+  Future deleteUserIdea(idIdea) async {
+    Database database = await getDatabase;
+    await database.rawQuery("DELETE FROM userIdea WHERE idIdea = $idIdea");
+  }
+
+  Future deleteIdea(idIdea) async {
+    Database database = await getDatabase;
+    await database.rawQuery("DELETE FROM idea WHERE idIdea = $idIdea");
+  }
+
   Future closeDatabase() async {
     Database database = await getDatabase;
     return database.close();
