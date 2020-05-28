@@ -9,9 +9,9 @@ Future sendRecord(path, idIdea) async {
   print(response);
 }
 
-Future<bool> requestEraseIdea(idIdea) async {
+Future<bool> requestEraseIdea(idIdea, name) async {
   
-  var response = await Session().post(mainUrl, {"idIdea": idIdea.toString()});
+  var response = await Session().post(mainUrl + "/deleteIdea", {"idIdea": idIdea.toString(), "name": name});
   if(response["status"] != "success"){
     return false;
   }

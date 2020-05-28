@@ -115,14 +115,14 @@ class _IdeaCardState extends State<IdeaCard> {
     DbConnection database = new DbConnection();
 
     print("ID = " + idea["idIdea"].toString());
-    bool response = await requestEraseIdea(idea["idIdea"]);
+    bool response = await requestEraseIdea(idea["idIdea"], idea["name"]);
 
     if(!response){
       Navigator.of(context).pop();
       errorMessage(context);
     }
     else{
-      final file = File(idea["path"]);
+      final file = File(idea["path"]+".m4a");
       file.deleteSync();
     
       await database.deleteUserIdea(idea["idIdea"]);
