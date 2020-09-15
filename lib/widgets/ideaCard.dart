@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:midiapp/pages/home.dart';
+import 'package:midiapp/pages/player.dart';
 
 import 'package:midiapp/utils/apis.dart';
 import 'package:midiapp/utils/storage.dart';
@@ -26,9 +27,10 @@ class _IdeaCardState extends State<IdeaCard> {
     print(idea);
     
     return new GestureDetector(
-      // onTap: () {
-      //   Navigator.push(context, MaterialPageRoute(builder: (context) => MeasuresPage(fridge["idfridge"], fridge["sensor"])));
-      // },
+      onTap: () {
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => Player(idea["name"], idea["path"])));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Player(idea["name"])));
+      },
       child: Card(
         elevation: 8.0,
         margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),

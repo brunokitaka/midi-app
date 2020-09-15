@@ -10,7 +10,8 @@ var token;
 var email;
 var userId;
 List paths = new List();
-String mainUrl = "http://192.168.0.193";
+// String mainUrl = "http://192.168.0.193";
+String mainUrl = "http://ec2-3-131-99-53.us-east-2.compute.amazonaws.com";
 
 Map<String, String> headers = {
   "Content-Type": "application/x-www-form-urlencoded"
