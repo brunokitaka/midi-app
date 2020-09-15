@@ -11,7 +11,7 @@ Future sendRecord(path, idIdea) async {
 
 Future<bool> requestEraseIdea(idIdea, name) async {
   
-  var response = await Session().post(mainUrl + "/deleteIdea", {"idIdea": idIdea.toString(), "name": name});
+  var response = await Session().post(mainUrl + "/deleteIdea", {"idIdeaApp": idIdea.toString(), "name": name});
   if(response["status"] != "success"){
     return false;
   }

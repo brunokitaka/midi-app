@@ -74,13 +74,13 @@ void signOut(context) {
     builder: (BuildContext context) {
       // return object of type Dialog
       return AlertDialog(
-        title: new Text("Fazer Logout?"),
-        content: new Text("Deseja mesmo fazer logout?"),
+        title: new Text("Logout?"),
+        content: new Text("Do you really want to logout?"),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           new FlatButton(
             child: new Text(
-              "Cancelar",
+              "Cancel",
               style: TextStyle(color: Colors.black),
             ),
             onPressed: () {
@@ -89,10 +89,10 @@ void signOut(context) {
           ),
           new RaisedButton(
             child: new Text(
-              "Confirmar",
+              "Confirm",
               style: TextStyle(color: Colors.white),
             ),
-            color: Colors.lightBlueAccent,
+            color: Color(0xff6f42c1),
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
                   new MaterialPageRoute(

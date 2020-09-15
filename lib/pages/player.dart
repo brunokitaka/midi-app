@@ -73,7 +73,7 @@ class _PlayerState extends State<Player> {
   Future _loadFile() async {
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/${filename}.m4a');
-    
+
     if (await file.exists()) {
       setState(() {
         localFilePath = file.path;
@@ -84,7 +84,7 @@ class _PlayerState extends State<Player> {
   Widget localFile() {
     _loadFile();
     return _Tab(children: [
-      Text('Current local file path: $localFilePath'),
+      // Text('Current local file path: $localFilePath'),
       localFilePath == null
           ? Container()
           : PlayerWidget(
@@ -133,13 +133,14 @@ class _PlayerState extends State<Player> {
       ],
       child: Scaffold(
           appBar: AppBar(
-            title: Text("${filename}", style: TextStyle(color: Colors.black),),
+            title: Text("Playing ${filename}", style: TextStyle(color: Colors.black),),
+            centerTitle: true,
             backgroundColor: Colors.white,
             iconTheme: new IconThemeData(
               color: Colors.grey.shade500
             ),
           ),
-          body: Center(
+          body: Container(
             child: localFile(),
           ),
         ),

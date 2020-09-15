@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                             suffixIcon: new Icon(Icons.lock),
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Senha"),
+                            labelText: "Password"),
                       ),
                     ),
                     new SizedBox(height: 30.0),
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: new Text(
                         "Sign In",
                         style: new TextStyle(
-                            color: Colors.blueAccent, fontSize: 22.0),
+                            color: Color(0xff6f42c1), fontSize: 20.0),
                       ),
                       onPressed: () => signIn(context, _emailController.text,
                           _passwordController.text, _registrationToken),

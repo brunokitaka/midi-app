@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+
+import 'logo.dart';
 
 enum PlayerState { stopped, playing, paused }
 enum PlayingRouteState { speakers, earpiece }
@@ -72,40 +75,18 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              key: Key('play_button'),
-              onPressed: _isPlaying ? null : () => _play(),
-              iconSize: 64.0,
-              icon: Icon(Icons.play_arrow),
-              color: Colors.cyan,
-            ),
-            IconButton(
-              key: Key('pause_button'),
-              onPressed: _isPlaying ? () => _pause() : null,
-              iconSize: 64.0,
-              icon: Icon(Icons.pause),
-              color: Colors.cyan,
-            ),
-            IconButton(
-              key: Key('stop_button'),
-              onPressed: _isPlaying || _isPaused ? () => _stop() : null,
-              iconSize: 64.0,
-              icon: Icon(Icons.stop),
-              color: Colors.cyan,
-            ),
-            IconButton(
-              onPressed: _earpieceOrSpeakersToggle,
-              iconSize: 64.0,
-              icon: _isPlayingThroughEarpiece
-                  ? Icon(Icons.volume_up)
-                  : Icon(Icons.hearing),
-              color: Colors.cyan,
-            ),
-          ],
+        SizedBox(height: 80.0),
+        Container(
+          padding: EdgeInsets.all(40.0),
+          color: Colors.grey.shade100,
+          // child: Icon(
+          //   FontAwesome.music,
+          //   color: Colors.grey.shade500,
+          //   size: 100.0,
+          // ),
+          child: new MidiLogo(),
         ),
+        SizedBox(height: 40.0),
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -114,6 +95,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
               child: Stack(
                 children: [
                   Slider(
+                    activeColor: Color(0xff6f42c1),
+                    inactiveColor: Color(0xff6f42c1),
                     onChanged: (v) {
                       final Position = v * _duration.inMilliseconds;
                       _audioPlayer
@@ -133,11 +116,37 @@ class _PlayerWidgetState extends State<PlayerWidget> {
               _position != null
                   ? '${_positionText ?? ''} / ${_durationText ?? ''}'
                   : _duration != null ? _durationText : '',
-              style: TextStyle(fontSize: 24.0),
+              style: TextStyle(fontSize: 15.0),
             ),
           ],
         ),
-        Text('State: $_audioPlayerState')
+        // Text('State: $_audioPlayerState')
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              key: Key('play_button'),
+              onPressed: _isPlaying ? null : () => _play(),
+              iconSize: 32.0,
+              icon: Icon(Icons.play_arrow),
+              color: Colors.grey.shade500,
+            ),
+            IconButton(
+              key: Key('pause_button'),
+              onPressed: _isPlaying ? () => _pause() : null,
+              iconSize: 32.0,
+              icon: Icon(Icons.pause),
+              color: Colors.grey.shade500,
+            ),
+            IconButton(
+              key: Key('stop_button'),
+              onPressed: _isPlaying || _isPaused ? () => _stop() : null,
+              iconSize: 32.0,
+              icon: Icon(Icons.stop),
+              color: Colors.grey.shade500,
+            )
+          ],
+        ),
       ],
     );
   }

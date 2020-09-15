@@ -66,6 +66,7 @@ class _HomePageState extends State<HomePage> {
       appBar: myAppBar(),
       drawer: new MyDrawer(),
       floatingActionButton: new FloatingActionButton(
+        backgroundColor: Color(0xff6f42c1),
         child: new Icon(Icons.add),
         onPressed: () {
           // callMidiApi();
