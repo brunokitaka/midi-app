@@ -39,13 +39,21 @@ class _LoginPageState extends State<LoginPage> {
                     new Container(
                       padding: const EdgeInsets.only(
                           top: 10.0, left: 30.0, right: 30.0),
-                      child: new TextField(
-                        controller: _emailController,
-                        decoration: new InputDecoration(
+                      child: Theme(
+                        data: Theme.of(context)
+                            .copyWith(primaryColor: Color(0xff6f42c1)),
+                        child: new TextField(
+                          controller: _emailController,
+                          decoration: new InputDecoration(
                             suffixIcon: new Icon(Icons.person),
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Email"),
+                            labelText: "Email",
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xff6f42c1))),
+                          ),
+                        ),
                       ),
                     ),
                     new SizedBox(
@@ -53,14 +61,22 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     new Container(
                       padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: new TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: new InputDecoration(
+                      child: Theme(
+                        data: Theme.of(context)
+                            .copyWith(primaryColor: Color(0xff6f42c1)),
+                        child: new TextField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: new InputDecoration(
                             suffixIcon: new Icon(Icons.lock),
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Password"),
+                            labelText: "Password",
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xff6f42c1))),
+                          ),
+                        ),
                       ),
                     ),
                     new SizedBox(height: 30.0),

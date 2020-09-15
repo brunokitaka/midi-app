@@ -125,8 +125,6 @@
 //   }
 // }
 
-
-
 import 'dart:io' as io;
 import 'dart:math';
 
@@ -156,7 +154,7 @@ class _RecordingPageState extends State<RecordingPage> {
   var id;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
 
@@ -164,22 +162,24 @@ class _RecordingPageState extends State<RecordingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Recording", style: TextStyle(color: Colors.black),),
+        title: Text(
+          "Recording",
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        iconTheme: new IconThemeData(
-          color: Colors.grey.shade500
-        ),
+        iconTheme: new IconThemeData(color: Colors.grey.shade500),
       ),
-      body: 
-      Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 30.0,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 50.0, right: 50.0),
+      body: Center(
+          child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 70.0,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 50.0, right: 50.0),
+            child: Theme(
+              data: Theme.of(context).copyWith(primaryColor: Color(0xff6f42c1)),
               child: TextField(
                 controller: _controller,
                 decoration: new InputDecoration(
@@ -187,28 +187,35 @@ class _RecordingPageState extends State<RecordingPage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 30.0,
-            ),
-            RaisedButton(
-              onPressed: _isRecording ? _stop : _start,
-              color: Colors.red,
-              child: Icon(
-                _isRecording ? FontAwesome.stop : FontAwesome.microphone,
-                color: Colors.black,
-              )
-            ),
-            SizedBox(
-              height: 50.0,
-            ),
-            new Text("File path of the record: ${_recording.path}"),
-              new Text("Format: ${_recording.audioOutputFormat}"),
-              new Text("Extension : ${_recording.extension}"),
-              new Text(
-                  "Audio recording duration : ${_recording.duration.toString()}")
-          ],
-        )
-      ),
+          ),
+          SizedBox(
+            height: 300.0,
+          ),
+          ButtonTheme(
+            minWidth: 200.0,
+            height: 100.0,
+            child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+                onPressed: _isRecording ? _stop : _start,
+                color: Colors.white,
+                child: Icon(
+                  _isRecording ? FontAwesome.stop : FontAwesome.microphone,
+                  color: Color(0xff6f42c1),
+                  size: 45.0,
+                )),
+          ),
+          SizedBox(
+            height: 50.0,
+          ),
+          // new Text("File path of the record: ${_recording.path}"),
+          //   new Text("Format: ${_recording.audioOutputFormat}"),
+          //   new Text("Extension : ${_recording.extension}"),
+          //   new Text(
+          //       "Audio recording duration : ${_recording.duration.toString()}")
+        ],
+      )),
     );
   }
 
@@ -220,11 +227,13 @@ class _RecordingPageState extends State<RecordingPage> {
         if (_controller.text != null && _controller.text != "") {
           String path = _controller.text + ".aac";
           if (!_controller.text.contains('/')) {
-            io.Directory appDocDirectory = await getApplicationDocumentsDirectory();
+            io.Directory appDocDirectory =
+                await getApplicationDocumentsDirectory();
             path = appDocDirectory.path + '/' + _controller.text;
           }
           print("Start recording: $path");
-          await AudioRecorder.start(path: path, audioOutputFormat: AudioOutputFormat.AAC);
+          await AudioRecorder.start(
+              path: path, audioOutputFormat: AudioOutputFormat.AAC);
 
           bool isRecording = await AudioRecorder.isRecording;
           setState(() {
@@ -255,7 +264,7 @@ class _RecordingPageState extends State<RecordingPage> {
     });
     // _controller.text = recording.path;
     _controller.text = "";
-    
+
     sendRecord(recording.path, id);
   }
 
@@ -264,7 +273,7 @@ class _RecordingPageState extends State<RecordingPage> {
 
     var idIdea = await database.insertIdea({"path": path, "name": name});
 
-    await database.insertUserIdea({"idIdea":idIdea,"userId":userId});
+    await database.insertUserIdea({"idIdea": idIdea, "userId": userId});
 
     id = idIdea;
     //TO DO: SEND AUDIO FILE TO BACKEND
