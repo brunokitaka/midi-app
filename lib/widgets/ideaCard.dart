@@ -29,7 +29,7 @@ class _IdeaCardState extends State<IdeaCard> {
     return new GestureDetector(
       onTap: () {
         // Navigator.push(context, MaterialPageRoute(builder: (context) => Player(idea["name"], idea["path"])));
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Player(idea["name"])));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Player(idea["name"], idea["webId"])));
       },
       child: Card(
         elevation: 8.0,

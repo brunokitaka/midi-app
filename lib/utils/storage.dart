@@ -39,6 +39,7 @@ class DbConnection {
     await database.execute(
       "CREATE TABLE idea " +
       "(idIdea INTEGER PRIMARY KEY AUTOINCREMENT, " +
+      "idWeb INTEGER, " +
       "path TEXT, " +
       "name TEXT)"
     );
@@ -97,6 +98,11 @@ class DbConnection {
   Future deleteIdea(idIdea) async {
     Database database = await getDatabase;
     await database.rawQuery("DELETE FROM idea WHERE idIdea = $idIdea");
+  }
+
+  Future updateWebId(webId, idIdea) async {
+    Database database = await getDatabase;
+    await database.rawQuery("UPDATE idea SET idWeb = $webId WHERE idIdea = $idIdea");
   }
 
   Future closeDatabase() async {

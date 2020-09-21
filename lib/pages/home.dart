@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
       List<Map> response = await database.selectIdeasPaths(ideas[i]["idIdea"]);
       Map item = {
         "idIdea": response[0]["idIdea"].toString(),
+        "webId": response[0]["idWeb"].toString(),
         "path": response[0]["path"].toString(),
         "name": response[0]["name"].toString()
       };

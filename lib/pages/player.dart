@@ -31,19 +31,22 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:midiapp/utils/info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/src/foundation/constants.dart';
 
+import 'package:midiapp/utils/storage.dart';
 import 'package:midiapp/widgets/player_widget.dart';
 
 typedef void OnError(Exception exception);
 
 class Player extends StatefulWidget {
   final String filename;
-  Player(this.filename);
+  final int webId;
+  Player(this.filename, this.webId);
   @override
-  _PlayerState createState() => _PlayerState(this.filename);
+  _PlayerState createState() => _PlayerState(this.filename, this.webId);
 }
 
 class _PlayerState extends State<Player> {
@@ -51,8 +54,9 @@ class _PlayerState extends State<Player> {
   AudioPlayer advancedPlayer = AudioPlayer();
   String localFilePath;
   String filename;
+  int webId;
 
-  _PlayerState(this.filename);
+  _PlayerState(this.filename, this.webId);
 
   @override
   void initState() {
@@ -68,6 +72,27 @@ class _PlayerState extends State<Player> {
       }
       advancedPlayer.startHeadlessService();
     }
+  }
+
+  Widget remoteUrl1() {
+
+    String url1 = mainUrl + "/playable/$webId/1.wav";
+
+    return PlayerWidget(url: url1);
+  }
+
+  Widget remoteUrl2() {
+
+    String url2 = mainUrl + "/playable/$webId/2.wav";
+
+    return PlayerWidget(url: url2);
+  }
+
+  Widget remoteUrl3() {
+
+    String url3 = mainUrl + "/playable/$webId/3.wav";
+
+    return PlayerWidget(url: url3);
   }
 
   Future _loadFile() async {
@@ -131,7 +156,9 @@ class _PlayerState extends State<Player> {
             initialData: Duration(),
             value: advancedPlayer.onAudioPositionChanged),
       ],
-      child: Scaffold(
+      child: DefaultTabController(
+        length: 4,
+        child: Scaffold(
           appBar: AppBar(
             title: Text("Playing ${filename}", style: TextStyle(color: Colors.black),),
             centerTitle: true,
@@ -139,11 +166,41 @@ class _PlayerState extends State<Player> {
             iconTheme: new IconThemeData(
               color: Colors.grey.shade500
             ),
+            bottom: TabBar(
+              tabs: [
+                Tab(
+                  child: Text("Recording", style: TextStyle(color: Colors.black, fontSize: 12.0),),
+                ),
+                Tab(
+                  child: Text("Suggestion 1", style: TextStyle(color: Colors.black, fontSize: 10.0),),
+                ),
+                Tab(
+                  child: Text("Suggestion 2", style: TextStyle(color: Colors.black, fontSize: 10.0),),
+                ),
+                Tab(
+                  child: Text("Suggestion 3", style: TextStyle(color: Colors.black, fontSize: 10.0),),
+                ),
+              ]
+            ),
           ),
-          body: Container(
-            child: localFile(),
-          ),
+          body: TabBarView(
+            children:[
+              Container(
+                child: localFile(),
+              ),
+              Container(
+                child: remoteUrl1(),
+              ),
+              Container(
+                child: remoteUrl2(),
+              ),
+              Container(
+                child: remoteUrl3(),
+              ),
+            ]
+          )
         ),
+      )
     );
   }
 }

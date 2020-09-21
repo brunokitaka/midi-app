@@ -4,7 +4,7 @@ import 'package:midiapp/utils/info.dart';
 
 Future sendRecord(path, idIdea) async {
   
-  var response = await Session().sendRecord(mainUrl + "/sendRecord", path, {"idIdea":idIdea.toString()}); 
+  var response = await Session().sendRecord(mainUrl + "/sendRecord", path, {"idIdea":idIdea.toString()}, idIdea); 
 
   print(response);
 }

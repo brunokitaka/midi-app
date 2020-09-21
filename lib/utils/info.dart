@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
+import 'storage.dart';
 
 /* GLOBAIS */
 var token;
@@ -64,7 +65,7 @@ class Session {
     }
   }
 
-  Future<String> sendRecord(String url, String filename, dynamic data) async {
+  Future<String> sendRecord(String url, String filename, dynamic data, idIdea) async {
     print("SENDING TO SERVER");
     
     var request = http.MultipartRequest('POST', Uri.parse(url));
@@ -85,6 +86,14 @@ class Session {
     if (response.statusCode == 200) {
       updateMultiCookie(response);
       print(response.reasonPhrase);
+      var res = json.decode(response.reasonPhrase);
+
+      var webId = res["data"]["idIdea"];
+
+      DbConnection database = new DbConnection();
+      
+      await database.updateWebId(webId, idIdea);
+
       return response.reasonPhrase;
     } else {
       print(response.reasonPhrase);
